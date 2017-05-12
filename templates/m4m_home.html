@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        
+        <!-- app's own CSS -->
+        <link href="{{ url_for('static', filename='styles.css') }}" rel="stylesheet"/>
+        
+        <!-- jquery -->
+        <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+         
+        <!-- http://getbootstrap.com/ (bootstrap styling) -->
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/>
+        
+         <!-- app's own JavaScript -->
+        <script src="{{ url_for('static', filename='scripts.js') }}"></script>
+
+
+        <title>Movie for Me</title>
+    </head>
+ 
+    <body>
+        <!-- heading of webpage -->
+        <div id= "header">
+        <h1>Movie for Me</h1>
+        <h3 id= "slogan">Modern Movie Reccomendations</h3>
+        </div>
+        
+        <!-- global movie search -->
+        <div id= "global">
+        <h4 class= "category">Search all Movies</h4>
+         <form onsubmit="clr(); title_search(); return false;">
+            <input autocomplete="off" autofocus id="title" placeholder="Title" type="text"/>
+            <input type="submit" value="Search"/>
+        </form>
+        </div>
+        
+        <!-- Netflix movie search -->
+        <div id= "netflix">
+        <h4 class= "category">Search Netflix</h4>
+        <!-- Search for a movie on Netflix -->
+        <form onsubmit="clr(); nflx_title_search(); return false;">
+            <input autocomplete="off" id="nflx_title" placeholder="Title on Netflix" type="text"/>
+            <input type="submit" value="Search"/>
+        </form>
+        <!-- Search for an actor on Netflix -->
+        <form onsubmit="clr(); nflx_actor_search(); return false;">
+            <input autocomplete="off" id="nflx_actor" placeholder="Actor" type="text"/>
+            <input type="submit" value="Search"/>
+        </form>
+        <!-- Search for a director on Netflix -->
+        <form onsubmit="clr(); nflx_director_search(); return false;">
+            <input autocomplete="off" id="nflx_director" placeholder="Director" type="text"/>
+            <input type="submit" value="Search"/>
+        </form>
+        </div>
+        
+        <!-- Sort search results -->
+        <div id= "sort">
+        <h4 class= "category">Sort</h4>
+        <form onsubmit="tomato_sort(); return false;">
+            <button>Sort by TomatoMeter</button>
+        </form>
+        <form onsubmit="imdb_sort(); return false;">
+            <button>Sort by IMBD Rating</button>
+        </form>
+        <form onsubmit="year_sort(); return false;">
+            <button>Sort by Year</button>
+        </form>
+        </div>
+    </body>
+</html>

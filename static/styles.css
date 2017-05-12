@@ -1,0 +1,59 @@
+/* Style for each search result*/
+.movie {
+    width: 500px;
+    height: 700px;
+    border: 5px solid white;
+    padding: 25px;
+    margin: 25px;
+    float: left;
+    box-shadow: 10px 10px 5px #696969;
+    /* http://www.bypeople.com/css-blur-transparent-login-box/ */
+    background:rgba(0,0,0,0.2);
+    color:#fff;
+}
+/* Style for the header */        
+#header {
+    text-indent: 20px;
+    color: white;
+    /* Text shadow */
+    text-shadow: 2px 2px gray;
+    /* http://uigradients.com (Gradient background) */
+    background: #bdc3c7; /* fallback for old browsers */
+    background: -webkit-linear-gradient(to left, #bdc3c7 , #2c3e50); /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to left, #bdc3c7 , #2c3e50); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+        
+#slogan {
+    text-indent: 50px;
+    font-style: italic;
+    /* https://css-tricks.com/adding-stroke-to-web-text/ (Red outline of words)*/
+    -webkit-text-stroke-width: .4px;
+    -webkit-text-stroke-color: red;
+}
+        
+#global, #netflix, #itunes, #sort {
+    float: left;
+}
+
+form {
+    padding: 5px;
+}
+        
+.category {
+    color: white;
+}
+        
+html, body {
+    /* http://lea.verou.me/css3patterns/#starry-night (starry night background of webpage)*/
+    background-color: black;
+    background-image:
+    radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 40px),
+    radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 30px),
+    radial-gradient(white, rgba(255,255,255,.1) 2px, transparent 40px),
+    radial-gradient(rgba(255,255,255,.4), rgba(255,255,255,.1) 2px, transparent 30px);
+    background-size: 550px 550px, 350px 350px, 250px 250px, 150px 150px; 
+    background-position: 0 0, 40px 60px, 130px 270px, 70px 100px;
+}
+        
+
+        

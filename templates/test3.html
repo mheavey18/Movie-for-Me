@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <style>
+        
+         .movie {
+            width: 500px;
+            height: 700px;
+            border: 5px solid white;
+            padding: 25px;
+            margin: 25px;
+            float: left;
+            box-shadow: 10px 10px 5px #696969;
+            /* http://www.bypeople.com/css-blur-transparent-login-box/ */
+            background:rgba(0,0,0,0.2);
+            color:#fff;
+        }
+        
+        #header {
+            text-indent: 20px;
+            color: white;
+            text-shadow: 2px 2px gray;
+            /* http://uigradients.com */
+            background: #bdc3c7; /* fallback for old browsers */
+            background: -webkit-linear-gradient(to left, #bdc3c7 , #2c3e50); /* Chrome 10-25, Safari 5.1-6 */
+            background: linear-gradient(to left, #bdc3c7 , #2c3e50); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+ 
+        }
+        
+        #slogan {
+            text-indent: 50px;
+            font-style: italic;
+            /* https://css-tricks.com/adding-stroke-to-web-text/ */
+            -webkit-text-stroke-width: .4px;
+            -webkit-text-stroke-color: red;
+        }
+        
+        #global {
+            float: left;
+        }
+        
+         #netflix {
+            float: left;
+        }
+        
+         #itunes {
+            float: left;
+        }
+        
+        #sort {
+            float: left;
+        }
+        
+        form {
+            padding: 5px;
+        }
+        
+        .category {
+            color: white;
+        }
+        
+        html, body {
+            /* http://lea.verou.me/css3patterns/#starry-night */
+            background-color: black;
+            background-image:
+            radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 40px),
+            radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 30px),
+            radial-gradient(white, rgba(255,255,255,.1) 2px, transparent 40px),
+            radial-gradient(rgba(255,255,255,.4), rgba(255,255,255,.1) 2px, transparent 30px);
+            background-size: 550px 550px, 350px 350px, 250px 250px, 150px 150px; 
+            background-position: 0 0, 40px 60px, 130px 270px, 70px 100px;
+        }
+        
+        </style>
+        
+        <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+         
+        <!-- http://getbootstrap.com/ -->
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/>
+        
+        <script data-require="angular.js@1.3.x" src="https://code.angularjs.org/1.3.15/angular.js" data-semver="1.3.15"></script>
+
+        <script>
+        
+   
+        
+            // adapted from pset 8 source code and http://api.jquery.com/jquery.getjson/
+            function title_search()
+            {
+                var url = 'http://www.omdbapi.com/?tomatoes=true&t=' + $('#title').val();
+                $('#title').val('');
+                $.getJSON(url, function(data) {
+                    if (data.Response != "True")
+                    {
+                        alert("Movie not found");
+                        throw new Error("Movie not found");
+                    }
+                    if (data.Type != "movie")
+                    {
+                        alert("Not a valid movie");
+                        throw new Error("Not a valid movie");
+                    }
+                    $( "<div class='" + "movie" + "'>" +
+                        "<h3>" + data.Title + "</h3>" +
+                        "<img src='"+ data.Poster + "' alt='" + "Unavailable poster" + "' style='" + "width:162px;height:240px;" + "'>" +
+                        "<p>" + data.Year + "</p>" +
+                        "<p>" + "Rated: " +data.Rated + "</p>" +
+                        "<p>" + data.Genre + "</p>" +
+                        "<p>" + "Directed by: " + data.Director + "</p>" +
+                        "<p>" + "Starring: " + data.Actors + "</p>" +
+                        "<p>" + data.Plot + "</p>" +
+                        "<p>" + data.Awards + "</p>" +
+                        "<p>" + "IMBD Rating: "+ data.imdbRating + "</p>" +
+                        "<p>" + "TomatoMeter: "+ data.tomatoMeter + "%" + "</p>" +
+                        "</div>"
+                    ).appendTo( "body" );
+                });
+            }
+            
+            // adapted from: http://stackoverflow.com/questions/26630650/detect-404-error-on-page-load
+            function UrlExists(url) {
+                    var http = new XMLHttpRequest();
+                    http.open('HEAD', url, false);
+                    http.send();
+                    if (http.status === 404 || http.status === 400) {
+                        alert("Not on Netflix");
+                    }
+                }
+            
+            
+            function nflx_title_search()
+            {
+                var url = 'http://netflixroulette.net/api/api.php?title=' + $('#nflx_title').val();
+                UrlExists(url);
+                $('#nflx_title').val('');
+                $.getJSON(url, function(data) {
+                    if (data.mediatype == 0) {
+                        var url = 'http://www.omdbapi.com/?tomatoes=true&t=' + data.show_title;
+                        $.getJSON(url, function(items) {
+                             $( "<div class='" + "movie" + "'>" +
+                            "<h3>" + items.Title + "</h3>" +
+                            "<img src='"+ items.Poster + "' alt='" + "Unavailable poster" + "' style='" + "width:162px;height:240px;" + "'>" +
+                            "<p>" + items.Year + "</p>" +
+                            "<p>" + "Rated: " + items.Rated + "</p>" +
+                            "<p>" + items.Genre + "</p>" +
+                            "<p>" + "Directed by: " + items.Director + "</p>" +
+                            "<p>" + "Starring: " + items.Actors + "</p>" +
+                            "<p>" + items.Plot + "</p>" +
+                            "<p>" + items.Awards + "</p>" +
+                            "<p>" + "IMBD Rating: "+ items.imdbRating + "</p>" +
+                            "<p>" + "TomatoMeter: "+ items.tomatoMeter + "%" + "</p>" +
+                            "</div>"
+                            ).appendTo( "body" );
+                        });    
+                    }   
+                });  
+            }
+            
+            function nflx_actor_search()
+            {
+                var url = 'http://netflixroulette.net/api/api.php?actor=' + $('#nflx_actor').val();
+                UrlExists(url);
+                $('#nflx_actor').val('');
+                get_data(url);
+            }
+            
+            function nflx_director_search()
+            {
+                var url = 'http://netflixroulette.net/api/api.php?director=' + $('#nflx_director').val();
+                UrlExists(url);
+                $('#nflx_director').val('');
+                get_data(url);
+            }
+            
+            function get_data(url)
+            {
+            $.getJSON(url, function(data) {
+                    for (var i = 0, size = data.length; i < size ; i++) {
+                        if (data[i].mediatype == 0) {
+                            var url = 'http://www.omdbapi.com/?tomatoes=true&t=' + data[i].show_title;
+                            $.getJSON(url, function(items) {
+                                if (items.Response == "True") {
+                                     $( "<div class='" + "movie" + "' id='" + "movie" + "'>" +
+                                    "<h3>" + items.Title + "</h3>" +
+                                    "<img src='"+ items.Poster + "' alt='" + "Unavailable poster" + "' style='" + "width:162px;height:240px;" + "'>" +
+                                    "<p class='" + "year" + "'>" + items.Year + "</p>" +
+                                    "<p>" + "Rated: " + items.Rated + "</p>" +
+                                    "<p>" + items.Genre + "</p>" +
+                                    "<p>" + "Directed by: " + items.Director + "</p>" +
+                                    "<p>" + "Starring: " + items.Actors + "</p>" +
+                                    "<p>" + items.Plot + "</p>" +
+                                    "<p>" + items.Awards + "</p>" +
+                                    "<p style='" + "display: inline-block" + "'>" + "IMBD Rating: " + "<div class='" + "i_rating" + "' style='" + "display: inline-block" + "'>"  + items.imdbRating + "</div>" + "</p>" +
+                                    "<p style='" + "display: inline-block" + "'>" + "TomatoMeter: "+ "<div class='" + "t_rating" + "' style='" + "display: inline-block" +"'>" + items.tomatoMeter + "</div>" + "%" + "</p>" +
+                                    "</div>"
+                                    ).appendTo( "body" );
+                                }
+                            });    
+                        }   
+                    }
+                });
+            }
+            
+            function clr()
+            {
+                // http://www.w3schools.com/jquery/jquery_dom_remove.asp
+                $(".movie").remove();
+            }
+            
+            function tomato_sort()
+            {
+                var sorted = [];
+                var unsorted = [];
+                $('.t_rating').each(function( index ) {
+                    var score = ($( this ).text() / 1)
+                    if (isNaN(score) === true) {
+                        score = -1;
+                    }
+                    sorted.push(score);
+                    unsorted.push(score)
+                    });
+                sort(sorted);
+                
+                var movies = [];
+                $('.movie').html( function( index1, data ) {
+                    $("#movie").remove();
+                    movies.push(data);
+                });
+                
+                for (var k = 0; k < unsorted.length - 1; k++) {
+                            if (sorted[k] == sorted[k + 1]) {
+                                sorted.splice(k, 1, k)
+                            }
+                        }
+                
+                for (var i = 0; i < unsorted.length; i++) {
+                    for (var j = 0; j < unsorted.length; j++) {
+                        
+                        if (sorted[i] == unsorted[j]) {
+                            $("<div class='" + "movie" + "' id='" + "movie" + "'>"  + movies[j] + "</div>").appendTo( "body" );
+                        }
+                    }
+                }
+            }
+            
+            function IMBD_sort()
+            {
+                var sorted = [];
+                var unsorted = [];
+                $('.i_rating').each(function( index ) {
+                    var score = ($( this ).text() / 1)
+                    if (isNaN(score) === true) {
+                        score = -1;
+                    }
+                    sorted.push(score);
+                    unsorted.push(score)
+                    });
+                sort(sorted);
+                
+                var movies = [];
+                $('.movie').html( function( index1, data ) {
+                    $("#movie").remove();
+                    movies.push(data);
+                });
+                for (var k = 0; k < unsorted.length - 1; k++) {
+                            if (sorted[k] == sorted[k + 1]) {
+                                // must insert number to keep array indexes constant (or else will cause duplicating if 3+ movies have same rating)
+                                sorted.splice(k, 1, k);
+                            }
+                        }
+                for (var i = 0; i < sorted.length; i++) {
+                    for (var j = 0; j < unsorted.length; j++) {
+                        if (sorted[i] == unsorted[j]) {
+                            $("<div class='" + "movie" + "' id='" + "movie" + "'>"  + movies[j] + "</div>").appendTo( "body" );
+                        }
+                    }
+                }
+            }
+            
+            function year_sort()
+            {
+            var sorted = [];
+            var unsorted = [];
+            $('.year').each(function( index ) {
+                var score = ($( this ).text() / 1)
+                if (isNaN(score) === true) {
+                    score = -1;
+                }
+                sorted.push(score);
+                unsorted.push(score);
+                });
+                sort(sorted);
+                
+                var movies = [];
+                $('.movie').html( function( index1, data ) {
+                    $("#movie").remove();
+                    movies.push(data);
+                });
+                
+                 for (var k = 0; k < unsorted.length - 1; k++) {
+                            if (sorted[k] == sorted[k + 1]) {
+                                // must insert number to keep array indexes constant (or else will cause duplicating if 3+ movies have same rating)
+                                sorted.splice(k, 1, k)
+                            }
+                        }
+                
+                for (var i = 0; i < sorted.length; i++) {
+                    for (var j = 0; j < unsorted.length; j++) {
+                        if (sorted[i] == unsorted[j]) {
+                            $("<div class='" + "movie" + "' id='" + "movie" + "'>"  + movies[j] + "</div>").appendTo( "body" );
+                        }
+                    }
+                }    
+            }
+
+            function sort(ratings)
+            {
+                var n = ratings.length;
+                // implementation of bubble sort
+                
+                // iterate through ratings in array until all ratings are sorted
+                for (var j = 0; j < n; j++)
+                {
+                    {
+                        // iterate through list and swap ratings, but do not finish sort in first iteration
+                        for (var i = 0; i < (n - 1); i++)
+                        {
+                            // check if value on right is larger than value on left
+                            if (ratings[i] < ratings[i + 1])
+                            {
+                                // if left value is larger, then swap the left and right ratings
+                                var temp = ratings[i];
+                                ratings[i] = ratings[i + 1];
+                                ratings[i + 1] = temp;
+                            }
+                        }
+                    }
+                }
+            }
+            
+
+            function test()
+            {
+                $('.movie').html( function( index, data ) {
+                    $("#movie").remove();
+                    $("<div class='" + "movie" + "' id='" + "movie" + "'>"  + data + "</div>").appendTo( "body" );  
+                });
+            }
+            
+            function itunes_search()
+            {   
+                /*var url = 'https://itunes.apple.com/search?media=movie&callback=?&t=titanic'
+                console.log(url);
+                $.getJSON(url, function(data) { 
+                    console.log(data);
+                });*/
+            }
+
+            
+        </script>
+        
+        <title>Test2</title>
+    </head>
+    
+    
+    <body>
+        <div id= "header">
+        <h1>Movie for Me</h1>
+        <h3 id= "slogan">Modern Movie Reccomendations</h3>
+        </div>
+        
+        <div id= "global">
+        <h4 class= "category">Search all Movies</h4>
+         <form onsubmit="clr(); title_search(); return false;">
+            <input autocomplete="off" autofocus id="title" placeholder="Title" type="text"/>
+            <input type="submit" value="Search"/>
+        </form>
+        </div>
+        
+        <div id= "netflix">
+        <h4 class= "category">Search Netflix</h4>
+        <form onsubmit="clr(); nflx_title_search(); return false;">
+            <input autocomplete="off" id="nflx_title" placeholder="Title on Netflix" type="text"/>
+            <input type="submit" value="Search"/>
+        </form>
+        <form onsubmit="clr(); nflx_actor_search(); return false;">
+            <input autocomplete="off" id="nflx_actor" placeholder="Actor" type="text"/>
+            <input type="submit" value="Search"/>
+        </form>
+        <form onsubmit="clr(); test(); nflx_director_search(); return false;">
+            <input autocomplete="off" id="nflx_director" placeholder="Director" type="text"/>
+            <input type="submit" value="Search"/>
+        </form>
+        </div>
+        
+        <div id="itunes">
+        <h4 class= "category">Search Itunes</h4>
+        <form onsubmit="clr(); itunes_search(); return false;">
+            <input autocomplete="off" id="itunes_movie" placeholder="Keyword(s)" type="text"/>
+            <input type="submit" value="Search"/>
+        </form>
+        </div>
+        
+        <div id= "sort">
+        <h4 class= "category">Sort</h4>
+        <form onsubmit="tomato_sort(); return false;">
+            <button>Sort by TomatoMeter</button>
+        </form>
+        <form onsubmit="IMBD_sort(); return false;">
+            <button>Sort by IMBD Rating</button>
+        </form>
+        
+        <form onsubmit="test(); return false;">
+            <button>Sort by Year</button>
+        </form>
+        </div>
+        
+        
+    </body>
+</html>
