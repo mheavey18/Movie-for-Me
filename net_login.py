@@ -8,8 +8,9 @@ login_email = browser.find_element_by_css_selector('#email')
 login_pass = browser.find_element_by_css_selector('#password')
 submit = browser.find_element_by_css_selector('#appMountPoint > div > div.login-body > div > div > form:nth-child(2) > button')
 
-login_email.send_keys('your email@cox.net')
-login_pass.send_keys('your pass')
+# make these arguments to run function
+login_email.send_keys('email@cox.net')
+login_pass.send_keys('pass')
 submit.click()
 
 marty_user = browser.find_element_by_css_selector('#appMountPoint > div > div > div.profiles-gate-container > div > div > ul > li:nth-child(3) > div > a > div > div')
@@ -20,6 +21,6 @@ html = browser.page_source
 page_soup = soup(html, "html.parser")
 
 # this is not working
-items = page_soup.findAll("div", {"class": "slider-item"})
+items = page_soup.findAll("div", {"class": "year"})
 
-print items[0]
+print len(items)
