@@ -2,7 +2,7 @@
 // called for global movie search
 function title_search() {
     // OMBD api gives JSON of movie info based on title that is input
-    var url = 'http://www.omdbapi.com/?tomatoes=true&t=' + $('#title').val();
+    var url = 'http://www.omdbapi.com/?tomatoes=true&apikey=1a495556&t=' + $('#title').val();
     // clear search bar after it is submitted
     $('#title').val('');
     // get JSON from url, store values in variables called data
